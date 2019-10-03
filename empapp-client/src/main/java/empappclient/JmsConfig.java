@@ -1,7 +1,10 @@
 package empappclient;
 
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.jms.ConnectionFactory;
+import javax.jms.JMSContext;
 import javax.jms.Queue;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -24,11 +27,24 @@ public class JmsConfig {
         return new InitialContext(jndiProperties);
     }
 
-    @Produces
-    public ConnectionFactory createConnectionFactory(Context context)
+//    @Produces
+//    public ConnectionFactory createConnectionFactory(Context context)
+//        throws NamingException {
+//        return  (ConnectionFactory) context
+//                .lookup("jms/RemoteConnectionFactory");
+//    }
+
+    @Produces  @RequestScoped
+    public JMSContext createJmsContext(Context context)
         throws NamingException {
-        return  (ConnectionFactory) context
-                .lookup("jms/RemoteConnectionFactory");
+        System.out.println("Create new JMSContext instance");
+        return  ((ConnectionFactory) context
+                .lookup("jms/RemoteConnectionFactory")).createContext("guest1", "guest1");
+    }
+
+    public void closeJmsContext(@Disposes JMSContext jmsContext) {
+        System.out.println("Close JMSContext instance");
+        jmsContext.close();
     }
 
     @Produces

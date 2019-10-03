@@ -3,7 +3,7 @@ package empappclient;
 import javax.enterprise.inject.se.SeContainer;
 import javax.enterprise.inject.se.SeContainerInitializer;
 
-public class Main {
+public class ReceiverMain {
 
     public static void main(String[] args) {
         SeContainerInitializer initializer =
@@ -11,16 +11,12 @@ public class Main {
         try (SeContainer container =
                 initializer
              .disableDiscovery()
-             .addBeanClasses(JmsConfig.class, EmployeeSender.class)
+             .addBeanClasses(JmsConfig.class, BlockerMessageReceiver.class)
              .initialize()
         ) {
 
-            EmployeeSender sender = container.select(EmployeeSender.class).get();
-            sender.sendMessage("Hello John Doe - CDI2.0");
-
-            sender.sendMessage("Hello Jane Doe - CDI2.0");
-
-
+            BlockerMessageReceiver receiver = container.select(BlockerMessageReceiver.class).get();
+            receiver.readMessage();
         }
     }
 }

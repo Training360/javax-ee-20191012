@@ -11,6 +11,10 @@ import javax.jms.TextMessage;
         @ActivationConfigProperty(
                 propertyName = "destination",
                 propertyValue = "java:/jms/queue/EmployeeQueue"
+        ),
+        @ActivationConfigProperty(
+                propertyName = "messageSelector",
+                propertyValue = "recipient = 'mdb'"
         )
 })
 public class EmployeesMessageDriven implements MessageListener {
@@ -20,8 +24,11 @@ public class EmployeesMessageDriven implements MessageListener {
         if (message instanceof TextMessage) {
             TextMessage textMessage = (TextMessage) message;
             try {
+                System.out.println("DELIVERED:" + message.getJMSRedelivered());
+                System.out.println("COUNT:" + message.getIntProperty("JMSXDeliveryCount"));
                 String name = textMessage.getText();
                 System.out.println(name);
+          //      throw new IllegalArgumentException("I DON'T LIKE THIS MESSAGE!");
             }
             catch (JMSException e) {
                 throw new IllegalStateException("Can not read message", e);
