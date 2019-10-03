@@ -48,6 +48,19 @@
             <version>3.1.2.Final</version>
         </dependency>
 
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>8.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-undertow</artifactId>
+            <version>17.0.1.Final</version>
+        </dependency>
+
+
     </dependencies>
 
 
