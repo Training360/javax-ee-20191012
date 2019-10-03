@@ -15,7 +15,7 @@ public class WebSocketClientMain {
     }
 
     public static void main(String[] args) {
-        CountDownLatch countDownLatch = new CountDownLatch(2);
+        CountDownLatch countDownLatch = new CountDownLatch(10);
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
         try {
             container.connectToServer(
@@ -34,6 +34,7 @@ public class WebSocketClientMain {
     @OnMessage
     public void processMessage(String message) {
         System.out.println(message);
+        countDownLatch.countDown();
     }
 
 

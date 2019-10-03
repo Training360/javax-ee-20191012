@@ -2,6 +2,7 @@ package empapp;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -17,14 +18,15 @@ import javax.jms.TextMessage;
 public class WarningMessageDriven implements MessageListener {
 
     @Inject
-    private WarningWebsocketServer warningWebsocketServer;
+    private Event<String> eventPublisher;
 
     @Override
     public void onMessage(Message message) {
             try {
                 String messageText = message.getBody(String.class);
                 System.out.println(messageText);
-                warningWebsocketServer.broadcast(messageText);
+
+                eventPublisher.fire(messageText);
             }
             catch (JMSException e) {
                 throw new IllegalStateException("Can not read message", e);
