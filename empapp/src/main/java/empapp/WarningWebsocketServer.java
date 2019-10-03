@@ -54,6 +54,7 @@ public class WarningWebsocketServer {
     @OnClose
     public void onClose(Session session) {
 //        sessions.remove(session);
+        // TODO eltavolitani a consumer listabol
     }
 
     @OnMessage

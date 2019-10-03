@@ -11,12 +11,15 @@ public class ReceiverMain {
         try (SeContainer container =
                 initializer
              .disableDiscovery()
-             .addBeanClasses(JmsConfig.class, BlockerMessageReceiver.class)
+             .addBeanClasses(JmsConfig.class, BlockerMessageReceiver.class, WarningReceiver.class)
              .initialize()
         ) {
 
-            BlockerMessageReceiver receiver = container.select(BlockerMessageReceiver.class).get();
-            receiver.readMessage();
+//            BlockerMessageReceiver receiver = container.select(BlockerMessageReceiver.class).get();
+//            receiver.readMessage();
+
+            WarningReceiver receiver = container.select(WarningReceiver.class).get();
+            receiver.subscribe();
         }
     }
 }
