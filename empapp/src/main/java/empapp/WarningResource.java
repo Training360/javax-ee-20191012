@@ -1,6 +1,7 @@
 package empapp;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -10,14 +11,21 @@ import javax.ws.rs.sse.SseBroadcaster;
 import javax.ws.rs.sse.SseEventSink;
 
 @Path("warning")
+@Singleton
 public class WarningResource {
 
     @Inject
     private WarningService warningService;
 
-    private static Sse sse;
+    private Sse sse;
 
-    private static SseBroadcaster broadcaster;
+    private SseBroadcaster broadcaster;
+
+    @Context
+    public void setSse(Sse sse) {
+        this.sse = sse;
+        broadcaster = sse.newBroadcaster();
+    }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -43,10 +51,6 @@ public class WarningResource {
 //                throw new IllegalStateException("Interrupted", ie);
 //            }
 //        }
-        if (broadcaster == null) {
-            this.sse =  sse;
-            broadcaster = sse.newBroadcaster();
-        }
         broadcaster.register(sseEventSink);
     }
 
