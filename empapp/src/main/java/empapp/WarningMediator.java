@@ -16,7 +16,7 @@ public class WarningMediator {
         consumers.add(consumer);
     }
 
-    public void processEvent(@Observes String event) {
+    public void processEvent(@Observes @ForWebsocket String event) {
         System.out.println("Process event: " + event);
         consumers.stream().forEach(c -> c.accept(event));
     }

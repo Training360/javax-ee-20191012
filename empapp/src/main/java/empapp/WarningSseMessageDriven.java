@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
-import javax.jms.TextMessage;
 
 @MessageDriven(activationConfig = {
         @ActivationConfigProperty(
@@ -15,10 +14,10 @@ import javax.jms.TextMessage;
                 propertyValue = "java:/jms/topic/WarningTopic"
         )
 })
-public class WarningMessageDriven implements MessageListener {
+public class WarningSseMessageDriven implements MessageListener {
 
     @Inject
-    @ForWebsocket
+    @ForServerSideEvent
     private Event<String> eventPublisher;
 
     @Override
