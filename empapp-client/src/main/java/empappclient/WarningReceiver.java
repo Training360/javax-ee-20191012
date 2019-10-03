@@ -16,12 +16,15 @@ public class WarningReceiver implements MessageListener {
     @Inject
     private Topic topic;
 
-    private CountDownLatch countDownLatch = new CountDownLatch(2);
+    private CountDownLatch countDownLatch = new CountDownLatch(10);
 
     @ActivateRequestContext
     public void subscribe() {
-        context.createConsumer(topic)
-                .setMessageListener(this);
+//        context.createConsumer(topic)
+//                .setMessageListener(this);
+            context.setClientID("client1");
+            context.createDurableConsumer(topic, "sub1")
+                    .setMessageListener(this);
         try {
             countDownLatch.await();
         }catch (InterruptedException ie) {
