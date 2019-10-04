@@ -10,6 +10,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
+@NamedQuery(name = "listEmployee", query = "select distinct e from Employee e left join fetch e.addresses")
 public class Employee {
 
     @Id
