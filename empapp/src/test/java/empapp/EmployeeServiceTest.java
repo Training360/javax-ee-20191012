@@ -8,7 +8,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EmployeeServiceTest {
@@ -28,6 +29,18 @@ public class EmployeeServiceTest {
         command.setName("John Doe");
         employeeService.createEmployee(command);
 
-        verify(employeeDao).insertEmployee(any());
+        verify(employeeDao).insertEmployee(
+                argThat(e -> e.getName().equals("John Doe"))
+        );
+    }
+
+    @Test
+    public void testShouldNotCallInsert() {
+        CreateEmployeeCommand command = new CreateEmployeeCommand();
+        command.setName("John Doe");
+        when(employeeDao.existsEmployeeWithName(any())).thenReturn(true);
+        employeeService.createEmployee(command);
+
+        verify(employeeDao, never()).insertEmployee(any());
     }
 }
