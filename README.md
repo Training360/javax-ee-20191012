@@ -15,3 +15,9 @@ data-source add --name=EmployeeDS --jndi-name=java:/jdbc/EmployeeDS \
 /subsystem=datasources:read-resource
 /subsystem=datasources:read-resource(recursive=true)
 ```
+
+```
+create schema if not exists employees default character set utf8 collate utf8_hungarian_ci;
+create user 'employees'@'localhost' identified by 'employees';
+grant all on *.* to 'employees'@'localhost';
+```
