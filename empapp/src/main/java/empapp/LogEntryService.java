@@ -10,6 +10,11 @@ public class LogEntryService {
     private LogEntryDao logEntryDao;
 
     public void createLogEntry(String message) {
-        logEntryDao.saveLogEntry(new LogEntry(message));
+        try {
+            logEntryDao.saveLogEntry(new LogEntry(message));
+        }
+        catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 }

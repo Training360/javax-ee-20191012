@@ -1,8 +1,10 @@
 package empapp;
 
+import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -12,9 +14,13 @@ public class EmployeeDao {
     @PersistenceContext
     private EntityManager em;
 
+    @Resource
+    TransactionSynchronizationRegistry registry;
+
 
     public void insertEmployee(Employee employee) {
         em.persist(employee);
+//        registry.setRollbackOnly();
     }
 
     public void updateEmployee(long id, String name) {
