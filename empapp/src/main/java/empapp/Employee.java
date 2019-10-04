@@ -21,7 +21,7 @@ public class Employee {
     @ElementCollection
     private List<String> skills;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<Address> addresses = new ArrayList<>();
 
     public Employee(String name) {

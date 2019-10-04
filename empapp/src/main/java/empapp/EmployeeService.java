@@ -50,11 +50,14 @@ public class EmployeeService {
         employeeDao.insertEmployee(employee);
     }
 
-    @Transactional
+//    @Transactional
     public List<EmployeeDto> listEmployees() {
         return employeeDao.listEmployees()
                 .stream()
-                .map(e -> new EmployeeDto(e.getId(), e.getName(), new ArrayList<>(e.getSkills())))
+                .map(e -> new EmployeeDto(e.getId(), e.getName(),
+//                        new ArrayList<>(e.getSkills())
+                        e.getAddresses().stream().map(Address::getCity).collect(Collectors.toList())
+                        ))
                 .collect(Collectors.toList());
     }
 }
