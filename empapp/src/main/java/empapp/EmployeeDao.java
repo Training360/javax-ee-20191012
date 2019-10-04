@@ -32,4 +32,15 @@ public class EmployeeDao {
         return em.createQuery("select distinct e from Employee e left join fetch e.addresses", Employee.class)
                 .getResultList();
     }
+
+    public void addAddress(long id, String city) {
+//        Employee employee = em.find(Employee.class, id);
+//        Address address = new Address(city);
+//        employee.addAddress(address);
+//        em.persist(address);
+        Employee employee = em.getReference(Employee.class, id);
+        Address address = new Address(city);
+        address.setEmployee(employee);
+        em.persist(address);
+    }
 }

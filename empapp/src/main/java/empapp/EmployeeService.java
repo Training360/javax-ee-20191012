@@ -60,4 +60,9 @@ public class EmployeeService {
                         ))
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public void addAddress(long id, CreateAddressCommand createAddressCommand) {
+        employeeDao.addAddress(id, createAddressCommand.getCity());
+    }
 }

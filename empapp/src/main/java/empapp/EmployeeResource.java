@@ -25,4 +25,15 @@ public class EmployeeResource {
         employeeService.createEmployee(command);
         return new Status("ok");
     }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("{id}/addresses")
+    public Status addAddress(@PathParam("id") long id,
+                             CreateAddressCommand createAddressCommand) {
+        employeeService.addAddress(id, createAddressCommand);
+        return new Status("ok");
+    }
+
 }
