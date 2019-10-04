@@ -17,11 +17,12 @@ public class EmployeeDao {
     @Resource
     TransactionSynchronizationRegistry registry;
 
-
+@Transactional
     public void insertEmployee(Employee employee) {
         em.persist(employee);
 //        registry.setRollbackOnly();
     }
+
 
     public void updateEmployee(long id, String name) {
         Employee employee = em.find(Employee.class, id);
@@ -46,7 +47,7 @@ public class EmployeeDao {
 
     public boolean existsEmployeeWithName(String name) {
         return em
-                .createQuery("select count(e.id) from Employee e where e.name = :name", Integer.class)
+                .createQuery("select count(e.id) from Employee e where e.name = :name", Long.class)
                 .setParameter("name", name)
                 .getSingleResult() > 0;
     }
