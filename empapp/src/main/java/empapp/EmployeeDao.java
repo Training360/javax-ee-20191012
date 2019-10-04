@@ -12,12 +12,11 @@ public class EmployeeDao {
     @PersistenceContext
     private EntityManager em;
 
-    @Transactional
+
     public void insertEmployee(Employee employee) {
         em.persist(employee);
     }
 
-    @Transactional
     public void updateEmployee(long id, String name) {
         Employee employee = em.find(Employee.class, id);
         employee.setName(name);

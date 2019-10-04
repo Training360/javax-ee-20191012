@@ -8,17 +8,13 @@ import java.util.List;
 @Path("employees")
 public class EmployeeResource {
 
-//    @Inject
-//    private EmployeeService employeeService;
-
     @Inject
-    private EmployeeDao employeeDao;
-
+    private EmployeeService employeeService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Employee> listEmployees() {
-        return employeeDao.listEmployees();
+    public List<EmployeeDto> listEmployees() {
+        return employeeService.listEmployees();
     }
 
     @POST
@@ -26,7 +22,7 @@ public class EmployeeResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Status createEmployee(CreateEmployeeCommand command) {
 //        employeeService.createEmployee(command.getName());
-        employeeDao.insertEmployee(new Employee(command.getName()));
+        employeeService.createEmployee(command);
         return new Status("ok");
     }
 }
