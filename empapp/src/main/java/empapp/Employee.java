@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,15 @@ public class Employee {
     @ElementCollection
     private List<String> skills;
 
+    @OneToMany(mappedBy = "employee")
+    private List<Address> addresses = new ArrayList<>();
+
     public Employee(String name) {
         this.name = name;
+    }
+
+    public void addAddress(Address address) {
+        addresses.add(address);
+        address.setEmployee(this);
     }
 }

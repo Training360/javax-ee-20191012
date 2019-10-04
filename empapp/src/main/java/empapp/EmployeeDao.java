@@ -29,7 +29,7 @@ public class EmployeeDao {
     }
 
     public List<Employee> listEmployees() {
-        return em.createQuery("select e from Employee e", Employee.class)
+        return em.createQuery("select distinct e from Employee e left join fetch e.skills", Employee.class)
                 .getResultList();
     }
 }
