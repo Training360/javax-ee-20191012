@@ -27,27 +27,15 @@ public class EmployeeService {
     private LogEntryService logEntryService;
 
     @Transactional
-    public void createEmployee(CreateEmployeeCommand createEmployeeCommand) {
+    public void createEmployee(CreateEmployeeCommand command) {
 //        context.createProducer().send(queue, name);
-        logEntryService.createLogEntry("Employee has created with name "
-                + createEmployeeCommand.getName());
+        logEntryService.createLogEntry("Create employee with name "
+                + command.getName());
 
-        Employee employee = new Employee();
-        employee.setName(createEmployeeCommand.getName());
-        if (createEmployeeCommand.getSkills() != null) {
-            employee.setSkills(Arrays.asList(
-                    createEmployeeCommand.getSkills().split(",")));
+        if (!employeeDao.existsEmployeeWithName(command.getName())) {
+            Employee employee = new EmployeeConverter().convert(command);
+            employeeDao.insertEmployee(employee);
         }
-        if (createEmployeeCommand.getCities() != null) {
-            Arrays.stream(createEmployeeCommand
-                            .getCities().split(","))
-                    .map(Address::new)
-                    .forEach(employee::addAddress);
-
-        }
-
-
-        employeeDao.insertEmployee(employee);
     }
 
 //    @Transactional

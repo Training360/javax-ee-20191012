@@ -43,4 +43,11 @@ public class EmployeeDao {
         address.setEmployee(employee);
         em.persist(address);
     }
+
+    public boolean existsEmployeeWithName(String name) {
+        return em
+                .createQuery("select count(e.id) from Employee e where e.name = :name", Integer.class)
+                .setParameter("name", name)
+                .getSingleResult() > 0;
+    }
 }
